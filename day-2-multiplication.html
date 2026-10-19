@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multiplication Table</title>
+  </head>
+  <body>
+    <style>
+      body {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      .a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+    </style>
+
+    <h1>Multiplication Table</h1>
+    <form>
+      <div class="a">
+        <p>Enter a number:</p>
+        <input type="number" id="num" placeholder="Enter a number" />
+        <label for="limit">Limit:</label>
+        <input type="number" id="limit" placeholder="Enter limit" />
+      </div>
+      <button onclick="generateTable()">Generate Table</button>
+    </form>
+    <div id="result">
+        
+    </div>
+
+    <script>
+      function generateTable() {
+        const num = document.getElementById("num").value;
+        const limit = document.getElementById("limit").value;
+
+        if (num === "" || limit === "") {
+          alert("Please enter both a number and a limit.");
+          return;
+        }
+
+        let table = "";
+        for (let i = 1; i <= limit; i++) {
+          table = table + `${num} * ${i} = ${num * i}<br>`;
+        }
+        document.getElementById("result").innerHTML = table;
+      }
+    </script>
+  </body>
+</html>

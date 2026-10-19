@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grade Calculator</title>
+  </head>
+  <body>
+    <style>
+      body {
+        background-color: #f0f0f0;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+      }
+    </style>
+
+    <div>
+      <h1>Grade Calculator</h1>
+      <p>Welcome to the Grade Calculator!</p>
+
+      <form>
+        <label>Enter your name:</label>
+        <input type="text" id="name" /><br /><br />
+
+        <label>Enter your score:</label>
+        <input type="number" id="score" />
+
+        <button type="button" onclick="calculateGrade()">
+          Calculate Grade
+        </button>
+      </form>
+
+      <div id="result">
+        <h2>Result:</h2>
+        <p id="output"></p>
+      </div>
+    </div>
+
+    <script>
+      function calculateGrade() {
+        const name = document.getElementById("name");
+        const score = document.getElementById("score");
+        let output;
+        if (score.value >= 90) {
+          output = `Congratulations ${name.value}, you got an A!`;
+        } else if (score.value >= 80) {
+          output = `Good job ${name.value}, you got a B!`;
+        } else if (score.value >= 70) {
+          output = `You passed ${name.value}, you got a C.`;
+        } else if (score.value >= 60) {
+          output = `You barely passed ${name.value}, you got a D.`;
+        } else if (score.value < 60) {
+          output = `Sorry ${name.value}, you failed with an F.`;
+        } else {
+          output = `Please enter a valid score.`;
+        }
+        document.getElementById("output").textContent = output;
+      }
+    </script>
+  </body>
+</html>
