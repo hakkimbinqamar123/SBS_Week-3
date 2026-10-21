@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Profile</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        text-align: center;
+      }
+
+      .student {
+        color: darkblue;
+      }
+
+      .table {
+        display: flex;
+        justify-content: center;
+      }
+
+      table {
+        width: 60%;
+        border-collapse: collapse;
+        background-color: white;
+      }
+
+      th,
+      td {
+        border: 1px solid black;
+        padding: 10px;
+      }
+
+      th {
+        background-color: lightblue;
+      }
+
+      #updateBtn,
+      #styleBtn,
+      #updateBtn2 {
+        padding: 10px 15px;
+        margin: 10px 5px;
+        border: none;
+        border-radius: 6px;
+        background-color: #2563eb;
+        color: white;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <h1 class="student">Student Profile</h1>
+
+      <div class="table">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Course</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td id="idCell"></td>
+              <td id="nameCell"></td>
+              <td id="ageCell"></td>
+              <td id="courseCell"></td>
+            </tr>
+
+            <tr>
+              <td id="idCell2"></td>
+              <td id="nameCell2"></td>
+              <td id="ageCell2"></td>
+              <td id="courseCell2"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <button id="updateBtn">Update Profile</button>
+      <button id="updateBtn2">Add Student</button>
+      <button id="styleBtn">Change button style</button>
+    </main>
+
+    <script>
+      const student = {
+        id: 1,
+        name: "Hakeem",
+        age: 25,
+        course: "JavaScript",
+      };
+
+      const idCell = document.getElementById("idCell");
+      const nameCell = document.getElementById("nameCell");
+      const ageCell = document.getElementById("ageCell");
+      const courseCell = document.getElementById("courseCell");
+
+      idCell.innerText = student.id;
+      nameCell.innerText = student.name;
+      ageCell.innerText = student.age;
+      courseCell.innerText = student.course;
+
+      const updateBtn = document.querySelector("#updateBtn");
+      updateBtn.addEventListener("click", function () {
+        nameCell.innerText = student.name + " (Updated)";
+        ageCell.innerText = student.age + 1;
+        courseCell.innerText = student.course + " (Advanced)";
+      });
+
+      const styleBtn = document.getElementById("styleBtn");
+      styleBtn.addEventListener("click", function () {
+        updateBtn.innerHTML = "<h3><i>Update Profile</i></h3>";
+      });
+
+      const updateBtn2 = document.getElementById("updateBtn2");
+      const idCell2 = document.getElementById("idCell2");
+      const nameCell2 = document.getElementById("nameCell2");
+      const ageCell2 = document.getElementById("ageCell2");
+      const courseCell2 = document.getElementById("courseCell2");
+      updateBtn2.addEventListener("click", function () {
+        idCell2.textContent = 2;
+        nameCell2.textContent = "John";
+        ageCell2.textContent = 30;
+        courseCell2.textContent = "Python";
+      });
+    </script>
+  </body>
+</html>

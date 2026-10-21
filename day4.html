@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dom Manipulation</title>
+  </head>
+  <body>
+    <div id="heading"></div>
+    <h2 id="title">Welcome to DOM Manipulation</h2>
+    <button id="btn" >Click</button>
+
+    <script>
+        const heading = document.getElementById("heading");
+        heading.innerHTML = "<h3>Hakeem is a good boy</h3>";
+
+        const title = document.getElementById("title");
+        const btn = document.getElementById("btn");
+
+        btn.addEventListener("click", function () {
+            title.style.color = "red"
+            btn.style.color = "blue"
+        })
+    </script>
+  </body>
+</html>
