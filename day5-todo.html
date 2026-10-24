@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To Do List</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background-color: #ffcc75;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .notepad {
+      background-color: white;
+      width: 320px;
+      min-height: 380px;
+      padding: 25px 20px;
+      border-radius: 25px 20px 25px 25px;
+      box-shadow: 5px 8px 15px #8b4e3820;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    h2 {
+      color: #8b4e38;
+      border: 2px solid #8b4e38;
+      border-radius: 12px;
+      padding: 8px 18px;
+      font-size: 20px;
+      font-weight: normal;
+      margin: 0;
+    }
+
+    .flower {
+      font-size: 35px;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 22px;
+    }
+
+    .input-area input {
+      width: 100%;
+      min-width: 0;
+      padding: 9px;
+      border: 1px solid #d8b5a2;
+      border-radius: 8px;
+      outline-color: #8b4e38;
+    }
+
+    button {
+      border: none;
+      border-radius: 7px;
+      padding: 8px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .add-btn {
+      background-color: #8b4e38;
+      color: white;
+    }
+
+    .task {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 17px;
+    }
+
+    .task input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      accent-color: #8b4e38;
+      flex-shrink: 0;
+    }
+
+    .line {
+      flex: 1;
+      min-width: 0;
+      border-bottom: 2px solid #8b4e38;
+      padding: 4px 0;
+      color: #8b4e38;
+      font-size: 13px;
+    }
+
+    .update-btn {
+      background-color: #ffcc75;
+      color: #75432e;
+    }
+
+    .delete-btn {
+      background-color: #f5d8d0;
+      color: #9b3023;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 28px;
+      font-size: 23px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="notepad">
+
+    <div class="header">
+      <h2>TO DO</h2>
+    </div>
+
+    <div class="input-area">
+      <input type="text" id="task_test" placeholder="Write a task...">
+      <button class="add-btn" id="addBtn">Add</button>
+    </div>
+
+    <div class="taskList">
+      <!-- <input id="checkbox" type="checkbox">
+      <span class="line" id="line1"></span>
+      <button class="update-btn" onclick="edit(localStorage.getItem('task'))">Edit</button>
+      <button class="delete-btn" id="del1">Del</button> -->
+    </div>
+
+  </div>
+
+
+  <script>
+    const task_test = document.getElementById('task_test');
+    const taskList = document.getElementById('taskList');
+    const del1 = document.getElementById('del1')
+    
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || []
+
+    function saveTasks() {
+        localStorage.setItem('tasks', JSON.stringify(tasks))
+    }
+
+    function displayTasks() {
+        taskList.innerHTML = ''
+
+        if (tasks.length === 0) {
+            tasksList.innerHTML = '<p class="empty-message">No tasks available.</p>';
+        }
+    }
+
+    function addTask() {
+      const value = task_test.value.trim()
+
+      if (value === "") {
+        task_test.focus()
+        return
+      }
+    }
+
+    addBtn.addEventListener('click', addTask)
+  </script>
+
+
+</body>
+
+</html>

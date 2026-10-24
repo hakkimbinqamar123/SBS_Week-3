@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Click Event</title>
+  </head>
+  <body>
+    <button id="myButton">Click Me</button>
+    <p id="message">Waiting for a click...</p>
+    <div>
+        <input type="text" id="inputField" placeholder="Type something..." />
+        <h3 id="inputDisplay">Hello, type here...</h3>
+    </div>
+
+    <div>
+        <form id="myForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required />
+            <br /><br />
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required />
+            <br /><br />
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <script>
+        const myButton = document.getElementById("myButton")
+        const message = document.getElementById("message")
+        myButton.addEventListener("click", function () {
+            message.textContent  = "Button Clicked!"
+        })
+
+        const inputField = document.getElementById("inputField")
+        const inputDisplay = document.getElementById("inputDisplay")
+
+        inputField.addEventListener("input", function () {
+            inputDisplay.textContent = "Hello" + " " + inputField.value
+        })
+
+        const myForm = document.getElementById("myForm")
+        myForm.addEventListener("submit", function (event) {
+            event.preventDefault()
+            const name = document.getElementById("name").value
+            const email = document.getElementById("email").value
+            alert(`Form submitted!\nName: ${name}\nEmail: ${email}`)
+        })
+    </script>
+  </body>
+</html>
