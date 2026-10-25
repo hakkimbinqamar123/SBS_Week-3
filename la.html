@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background-color: #ffcc75;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .notepad {
+            background-color: white;
+            width: 360px;
+            max-width: 100%;
+            min-height: 380px;
+            padding: 25px 20px;
+            border-radius: 25px 20px 25px 25px;
+            box-shadow: 5px 8px 15px #8b4e3820;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            color: #8b4e38;
+            border: 2px solid #8b4e38;
+            border-radius: 12px;
+            padding: 8px 18px;
+            font-size: 20px;
+            font-weight: normal;
+            margin: 0;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 22px;
+        }
+
+        .input-area input {
+            flex: 1;
+            width: 100%;
+            min-width: 0;
+            padding: 9px;
+            border: 1px solid #d8b5a2;
+            border-radius: 8px;
+            outline-color: #8b4e38;
+        }
+
+        button {
+            border: none;
+            border-radius: 7px;
+            padding: 8px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .add-btn {
+            background-color: #8b4e38;
+            color: white;
+        }
+
+        .task {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 17px;
+        }
+
+        .task input[type="checkbox"] {
+            width: 17px;
+            height: 17px;
+            accent-color: #8b4e38;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .line {
+            flex: 1;
+            min-width: 0;
+            overflow-wrap: anywhere;
+            border-bottom: 2px solid #8b4e38;
+            padding: 4px 0;
+            color: #8b4e38;
+            font-size: 13px;
+        }
+
+        .line.completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .update-btn {
+            background-color: #ffcc75;
+            color: #75432e;
+        }
+
+        .delete-btn {
+            background-color: #f5d8d0;
+            color: #9b3023;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        .empty-message {
+            color: #8b4e38;
+            font-size: 13px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="notepad">
+
+        <div class="header">
+            <h2>TO DO</h2>
+        </div>
+
+        <div class="input-area">
+            <input type="text" id="task_test" placeholder="Write a task...">
+            <button class="add-btn" id="addBtn">Add</button>
+        </div>
+
+        <div id="taskList"></div>
+
+    </div>
+
+    <script>
+        const task_test = document.getElementById("task_test");
+        const taskList = document.getElementById("taskList");
+        const addBtn = document.getElementById("addBtn");
+
+        let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        let editIndex = null;
+
+        // Save tasks in localStorage
+        function saveTasks() {
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        }
+
+        // Display all tasks
+        function displayTasks() {
+            taskList.innerHTML = "";
+
+            if (tasks.length === 0) {
+                taskList.innerHTML =
+                    '<p class="empty-message">No tasks yet. Add your first task!</p>';
+                return;
+            }
+
+            tasks.forEach(function (task, index) {
+                const row = document.createElement("div");
+                row.className = "task";
+
+                // Checkbox
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.checked = task.completed;
+
+                // Task text
+                const text = document.createElement("span");
+                text.className = "line";
+                text.textContent = task.text;
+
+                if (task.completed) {
+                    text.classList.add("completed");
+                }
+
+                // Checkbox event
+                checkbox.addEventListener("change", function () {
+                    tasks[index].completed = checkbox.checked;
+                    saveTasks();
+                    displayTasks();
+                });
+
+                // Edit button
+                const editBtn = document.createElement("button");
+                editBtn.className = "update-btn";
+                editBtn.textContent = "Edit";
+
+                editBtn.addEventListener("click", function () {
+                    task_test.value = task.text;
+                    editIndex = index;
+                    addBtn.textContent = "Update";
+                    task_test.focus();
+                });
+
+                // Delete button
+                const deleteBtn = document.createElement("button");
+                deleteBtn.className = "delete-btn";
+                deleteBtn.textContent = "Del";
+
+                deleteBtn.addEventListener("click", function () {
+                    tasks.splice(index, 1);
+
+                    if (editIndex === index) {
+                        editIndex = null;
+                        task_test.value = "";
+                        addBtn.textContent = "Add";
+                    } else if (editIndex !== null && editIndex > index) {
+                        editIndex--;
+                    }
+
+                    saveTasks();
+                    displayTasks();
+                });
+
+                row.append(checkbox, text, editBtn, deleteBtn);
+                taskList.appendChild(row);
+            });
+        }
+
+        // Add a new task or update an existing task
+        function addTask() {
+            const value = task_test.value.trim();
+
+            if (value === "") {
+                task_test.focus();
+                return;
+            }
+
+            if (editIndex !== null) {
+                tasks[editIndex].text = value;
+                editIndex = null;
+                addBtn.textContent = "Add";
+            } else {
+                tasks.push({
+                    text: value,
+                    completed: false
+                });
+            }
+
+            saveTasks();
+            displayTasks();
+
+            task_test.value = "";
+            task_test.focus();
+        }
+
+        // Add button click
+        addBtn.addEventListener("click", addTask);
+
+        // Press Enter to add or update
+        task_test.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                addTask();
+            }
+        });
+
+        // Display saved tasks when the page loads
+        displayTasks();
+    </script>
+
+</body>
+
+</html>
