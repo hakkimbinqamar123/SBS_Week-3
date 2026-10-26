@@ -1,0 +1,469 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f5f7;
+            color: #333;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 220px;
+            background-color: #263b5e;
+            color: white;
+            padding: 20px;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 35px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .sidebar a:hover,
+        .sidebar .active {
+            background-color: #405779;
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            padding: 25px;
+            min-width: 0;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .profile {
+            background-color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+        /* Summary Cards */
+        .cards {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            flex: 1;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .card h3 {
+            font-size: 15px;
+            color: #666;
+            margin-top: 0;
+        }
+
+        .card p {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 0;
+        }
+
+        .green {
+            color: green;
+        }
+
+        .red {
+            color: red;
+        }
+
+        /* Content Sections */
+        .content {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .section {
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .form-section {
+            width: 320px;
+            flex-shrink: 0;
+        }
+
+        .transactions {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .section h2 {
+            margin-top: 0;
+            font-size: 19px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        label {
+            font-size: 14px;
+        }
+
+        button {
+            padding: 10px 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .add-btn {
+            width: 100%;
+            background-color: #263b5e;
+            color: white;
+        }
+
+        /* Transaction Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px 8px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f7f7f7;
+        }
+
+        .edit-btn {
+            background-color: #ffe6a3;
+            margin-bottom: 4px;
+        }
+
+        .delete-btn {
+            background-color: #ffdada;
+            color: #a30000;
+        }
+
+        @media (max-width: 900px) {
+            .content {
+                flex-direction: column;
+            }
+
+            .form-section {
+                width: 100%;
+            }
+
+            .transactions {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .dashboard {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .sidebar h2 {
+                margin-bottom: 15px;
+            }
+
+            .sidebar a {
+                display: inline-block;
+                margin: 3px;
+            }
+
+            .main {
+                padding: 15px;
+            }
+
+            .cards {
+                flex-direction: column;
+            }
+
+            .header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .transactions {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 550px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dashboard">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>💰 Expense Tracker</h2>
+
+            <a href="#" class="active">Dashboard</a>
+            <a href="#">Transactions</a>
+            <a href="#">Income</a>
+            <a href="#">Expenses</a>
+            <a href="#">Settings</a>
+        </aside>
+
+        <!-- Main Dashboard -->
+        <main class="main">
+
+            <div class="header">
+                <h1>Dashboard</h1>
+                <div class="profile">Welcome, User 👋</div>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="cards">
+
+                <div class="card" >
+                    <h3>Total Balance</h3>
+                    <p id="balance"></p>
+                </div>
+
+                <div class="card" >
+                    <h3>Total Income</h3>
+                    <p class="green" id="income"></p>
+                </div>
+
+                <div class="card" >
+                    <h3>Total Expenses</h3>
+                    <p class="red" id="total"></p>
+                </div>
+
+            </div>
+
+            <div class="content">
+
+                <!-- Add Transaction Form -->
+                <section class="section form-section">
+                    <h2>Add Transaction</h2>
+
+                    <form>
+                        <label for="title">Transaction Name</label>
+                        <input type="text" id="title"
+                               placeholder="e.g. Groceries">
+
+                        <label for="amount">Amount (AED)</label>
+                        <input type="number" id="amount"
+                               placeholder="Enter amount">
+
+                        <label for="type">Type</label>
+                        <select id="type">
+                            <option value="expense">Expense</option>
+                            <option value="income">Income</option>
+                        </select>
+
+                        <label for="category">Category</label>
+                        <select id="category">
+                            <option>Food</option>
+                            <option>Transport</option>
+                            <option>Shopping</option>
+                            <option>Bills</option>
+                            <option>Salary</option>
+                            <option>Other</option>
+                        </select>
+
+                        <label for="date">Date</label>
+                        <input type="date" id="date">
+
+                        <button type="button" class="add-btn">
+                            + Add Transaction
+                        </button>
+                    </form>
+                </section>
+
+                <!-- Recent Transactions -->
+                <section class="section transactions">
+                    <h2>Recent Transactions</h2>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>Groceries</td>
+                                <td>Food</td>
+                                <td class="red">- AED 150</td>
+                                <td>
+                                    <button type="button" class="edit-btn">
+                                        Edit
+                                    </button>
+                                    <button type="button" class="delete-btn">
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Monthly Salary</td>
+                                <td>Salary</td>
+                                <td class="green">+ AED 4,000</td>
+                                <td>
+                                    <button type="button" class="edit-btn">
+                                        Edit
+                                    </button>
+                                    <button type="button" class="delete-btn">
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Taxi</td>
+                                <td>Transport</td>
+                                <td class="red">- AED 50</td>
+                                <td>
+                                    <button type="button" class="edit-btn">
+                                        Edit
+                                    </button>
+                                    <button type="button" class="delete-btn">
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+            </div>
+
+        </main>
+
+    </div>
+<script>
+    const title = document.getElementById("title");
+    const amount = document.getElementById("amount");
+    const expense = document.getElementById("type");
+    const category = document.getElementById("category");
+    const date = document.getElementById("date");
+
+    const addBtn = document.querySelector(".add-btn");
+
+    const income = document.getElementById("income");
+    const balance = document.getElementById("balance");
+    const total = document.getElementById("total");
+
+    let expenseList = JSON.parse(localStorage.getItem("expenseList")) || [];
+
+    function saveExpenses() {
+        localStorage.setItem("expenseList", JSON.stringify(expenseList));
+    }
+
+    function addExpense() {
+        const titleValue = title.value.trim()
+        const amountValue = Number(amount.value)
+        const expenseValue = expense.value
+        const categoryValue = category.value
+        const dateValue = date.value
+
+        expenseList.push({
+            title: titleValue,
+            amount: amountValue,
+            expense: expenseValue,
+            category: categoryValue,
+            date: dateValue
+        });
+
+        saveExpenses()
+        calculateTotals()
+
+        console.log("Transactions:", expenseList)
+    }
+
+    function calculateTotals() {
+        let totalIncome = 0
+        let totalExpenses = 0
+
+        expenseList.forEach(function (item) {
+            if (item.expense === "income") {
+                totalIncome += Number(item.amount);
+            } else if (item.expense === "expense") {
+                totalExpenses += Number(item.amount);
+            }
+        });
+
+        const currentBalance = totalIncome - totalExpenses
+
+        income.textContent = totalIncome.toFixed(2);
+        total.textContent = totalExpenses.toFixed(2);
+        balance.textContent = currentBalance.toFixed(2);
+    }
+
+    function displayExpenses() {
+        console.log("Saved transactions:", expenseList);
+    }
+
+    addBtn.addEventListener("click", function () {
+        addExpense();
+    });
+
+    calculateTotals();
+    displayExpenses();
+</script>
+</body>
+</html>
